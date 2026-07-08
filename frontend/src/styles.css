@@ -347,6 +347,20 @@ button:hover { border-color: var(--amber); color: var(--gold); }
 
 /* hero (entry) variant */
 .section-panel.hero { text-align: left; }
+.section-panel.hero .frame-line {
+  font-style: italic;
+  font-size: clamp(1rem, 1.8vw, 1.15rem);
+  color: rgba(224, 169, 110, 0.85);
+  margin-top: 6px;
+}
+.section-panel.hero .frame-line::before {
+  content: '';
+  display: inline-block;
+  width: 22px; height: 1px;
+  background: rgba(224, 169, 110, 0.5);
+  vertical-align: middle;
+  margin-right: 10px;
+}
 .section-panel.hero h1 {
   font-weight: 300;
   font-size: clamp(2.4rem, 6.5vw, 4.6rem);

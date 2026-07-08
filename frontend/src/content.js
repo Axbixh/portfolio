@@ -15,9 +15,11 @@
 export const SITE = {
   name: 'KOUSHIK', // [REPLACE] your name / mark
   positioning: {
-    // The one line the whole site proves (spec §1) — edit to taste.
-    lead: 'I direct, I shoot, I build.',
-    sub: 'Software that feels like cinema. Films that think like systems.',
+    // The one line the whole site proves (spec §1). <em> renders in amber italic.
+    lead: 'Building things worth paying <em>attention</em> to.',
+    sub: 'Through film, design and whatever the idea demands.',
+    // the quiet framing line under the hero — the mental model for the range
+    frame: "I don't collect projects. I collect obsessions.",
   },
 };
 
@@ -57,7 +59,7 @@ export const SECTIONS = [
     label: 'Bits & Build',
     kicker: 'Chapter 03',
     title: 'Bits <em>&</em> Build',
-    body: 'Software and systems. Engineering with the same taste as the frame.',
+    body: 'Where ideas become real. Products, experiments and systems built to be useful — and beautiful.',
     works: [
       { title: 'This Site', meta: 'WebGL · Three.js · 2026', video: null },
       { title: 'Project Two', meta: 'Tooling · 2025', video: null },  // [REPLACE]
@@ -69,7 +71,7 @@ export const SECTIONS = [
     label: 'Thoughts',
     kicker: 'Chapter 04',
     title: 'Thoughts',
-    body: 'Notes on light, systems, and the space between them.',
+    body: 'Thoughts collected while building.',
     works: [
       { title: 'On Warm Futurism', meta: 'Essay · 2026', video: null },     // [REPLACE]
       { title: 'The Phone Is the Venue', meta: 'Essay · 2025', video: null }, // [REPLACE]
@@ -88,7 +90,7 @@ export const SECTIONS = [
     label: 'About',
     kicker: 'The Operator',
     title: 'About',
-    body: 'Director, cinematographer, engineer. I make images with intent and software with restraint — and I believe the two are the same discipline. ', // [REPLACE]
+    body: 'I learn by building. Films, products, spaces, brands — different mediums, same obsession: making things with care.',
   },
   {
     id: 'contact',

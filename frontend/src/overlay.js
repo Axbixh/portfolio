@@ -85,8 +85,9 @@ export function createOverlay(sections, hooks) {
     if (s.hero) {
       inner.innerHTML = `
         <div class="kicker">${s.kicker}</div>
-        <h1>${SITE.positioning.lead.replace(/build\./, '<em>build.</em>')}</h1>
-        <div class="body">${SITE.positioning.sub}</div>`;
+        <h1>${SITE.positioning.lead}</h1>
+        <div class="body">${SITE.positioning.sub}</div>
+        <div class="frame-line">${SITE.positioning.frame || ''}</div>`;
     } else {
       inner.innerHTML = `
         <div class="kicker">${s.kicker}</div>
@@ -218,7 +219,7 @@ function buildStage(work) {
   if (!v) {
     return `<div class="placeholder">
       <div class="t">${work.title}</div>
-      <div class="m">media coming soon — add a link in src/content.js</div>
+      <div class="m">coming soon</div>
     </div>`;
   }
   const yt = String(v).match(

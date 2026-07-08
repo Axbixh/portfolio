@@ -30,6 +30,7 @@ function webglFallback() {
     <div class="kicker">The Observatory</div>
     <h1>${SITE.positioning.lead}</h1>
     <p class="sub">${SITE.positioning.sub}</p>
+    <p class="sub"><em>${SITE.positioning.frame || ''}</em></p>
     <p class="note">The full site is a real-time 3D experience and your
     browser couldn't start WebGL. Here is the short version —</p>
     <div class="contact-links">${links}</div>`;
