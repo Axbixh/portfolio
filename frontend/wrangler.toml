@@ -1,0 +1,19 @@
+# Cloudflare Pages config — deploy with: npm run deploy (from repo root)
+name = "observatory"
+compatibility_date = "2026-07-01"
+pages_build_output_dir = "dist"
+
+# The KV namespace that stores shot cards, scores, and messages.
+# One-time setup:
+#   npx wrangler kv namespace create OBS_KV
+# then paste the returned id below (and uncomment):
+#
+# [[kv_namespaces]]
+# binding = "OBS_KV"
+# id = "PASTE_NAMESPACE_ID_HERE"
+#
+# (Local dev doesn't need this — `npm run dev` uses a local simulated KV.)
+
+# After you have a custom domain, uncomment for canonical share links:
+# [vars]
+# PUBLIC_ORIGIN = "https://yourdomain.com"

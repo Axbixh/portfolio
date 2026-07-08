@@ -9,8 +9,9 @@ export default defineConfig({
   server: {
     host: true,
     proxy: {
-      '/api': 'http://localhost:3001',
-      '/shot': 'http://localhost:3001',
+      // wrangler pages dev serves the Pages Functions locally
+      '/api': 'http://localhost:8788',
+      '/shot': 'http://localhost:8788',
     },
   },
 });

@@ -5,13 +5,16 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:functions": "node scripts/dev-functions.mjs",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "deploy": "wrangler pages deploy dist"
   },
   "dependencies": {
     "three": "^0.170.0"
   },
   "devDependencies": {
-    "vite": "^6.0.0"
+    "vite": "^6.0.0",
+    "wrangler": "^4.107.1"
   }
 }

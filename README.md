@@ -22,18 +22,33 @@ frontend/   Vite + Three.js app (the site)
       room.js          the Lighting Room (lazy-loaded chunk)
       patterns.js      Rembrandt/loop/split/… classification, ratios, kelvin
       shotcard.js      Shot Card PNG composer + share/download
-backend/    Express API (optional — site works as a static deploy too)
-  src/server.js        shot-card gallery + contact endpoints, serves dist in prod
+  functions/           Cloudflare Pages Functions (the API — deploys free)
+    api/…              shot cards, scores, contact (KV-backed)
+    shot/[id].js       share pages with OG tags
+    _middleware.js     security headers + rate limiting
+  wrangler.toml        Cloudflare Pages config
 ```
 
 ## Run
 
 ```bash
-npm install          # once, at the repo root (npm workspaces)
-npm run dev          # frontend on :5173 (proxies /api) + backend on :3001
+npm install          # once, at the repo root
+npm run dev          # site on :5173 + Pages Functions on :8788 (local KV)
 ```
 
-Production: `npm run build` then `npm start` — the backend serves `frontend/dist`.
+## Deploy (Cloudflare Pages — free)
+
+```bash
+npx wrangler login                          # once — opens browser
+npx wrangler kv namespace create OBS_KV    # once — copy the id it prints
+# paste the id into frontend/wrangler.toml (uncomment the kv block)
+npm run deploy                              # build + publish
+```
+
+First deploy gives you `https://observatory-xxx.pages.dev`; add a custom
+domain later in the Cloudflare dashboard (Pages → Custom domains) and set
+`PUBLIC_ORIGIN` in wrangler.toml. Recommended: enable the free WAF
+rate-limiting rule in the dashboard (Security → WAF).
 
 ## The game — Match the Shot
 
