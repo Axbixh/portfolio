@@ -195,107 +195,207 @@ export class Sound {
   _generativeJazz() {
     const midi = (m) => 440 * Math.pow(2, (m - 69) / 12);
     this._midi = midi;
-    const BEAT = 60 / 72; // slow
-    // Dm7 → G7 → Cmaj7 → Am7, one bar each
+    const BEAT = 60 / 58; // last-set ballad tempo
+    this._BEAT = BEAT;
+
+    // the room: a generated impulse response so the trio plays in a
+    // small bar, not a void
+    const rate = this.ctx.sampleRate;
+    const irLen = Math.floor(rate * 1.9);
+    const ir = this.ctx.createBuffer(2, irLen, rate);
+    for (let ch = 0; ch < 2; ch++) {
+      const d = ir.getChannelData(ch);
+      for (let i = 0; i < irLen; i++) {
+        d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / irLen, 2.8);
+      }
+    }
+    const verb = this.ctx.createConvolver();
+    verb.buffer = ir;
+    const wet = this.ctx.createGain();
+    wet.gain.value = 0.35;
+    this._jazzOut = this.ctx.createGain();
+    this._jazzOut.connect(this._jazzFade);
+    this._jazzOut.connect(verb);
+    verb.connect(wet).connect(this._jazzFade);
+
+    // eight smoky bars in D minor — tensions welcome, resolution optional
     this._prog = [
-      { root: 38, third: 3, voicing: [50, 53, 57, 60] },
-      { root: 43, third: 4, voicing: [50, 53, 55, 59] },
-      { root: 36, third: 4, voicing: [48, 52, 55, 59] },
-      { root: 33, third: 3, voicing: [48, 52, 55, 57] },
+      { root: 38, third: 3, voicing: [53, 57, 60, 64] }, // Dm9
+      { root: 43, third: 3, voicing: [53, 58, 62, 65] }, // Gm9
+      { root: 38, third: 3, voicing: [53, 57, 60, 64] }, // Dm9
+      { root: 33, third: 4, voicing: [49, 52, 55, 58] }, // A7b9
+      { root: 46, third: 4, voicing: [50, 53, 57, 60] }, // Bbmaj9
+      { root: 40, third: 3, voicing: [50, 55, 58, 62] }, // Em7b5
+      { root: 33, third: 4, voicing: [49, 52, 55, 58] }, // A7b9
+      { root: 38, third: 3, voicing: [53, 57, 62, 65] }, // Dm9, voiced higher
     ];
 
-    // short noise buffer shared by the brushes
-    const len = Math.floor(this.ctx.sampleRate * 0.15);
-    this._brushBuf = this.ctx.createBuffer(1, len, this.ctx.sampleRate);
-    const d = this._brushBuf.getChannelData(0);
-    for (let i = 0; i < len; i++) d[i] = Math.random() * 2 - 1;
+    const len = Math.floor(rate * 0.4);
+    this._brushBuf = this.ctx.createBuffer(1, len, rate);
+    const bd = this._brushBuf.getChannelData(0);
+    for (let i = 0; i < len; i++) bd[i] = Math.random() * 2 - 1;
 
     let pos = 0; // song position in beats
     let next = this.ctx.currentTime + 0.3;
-    const h = () => (Math.random() - 0.5) * 0.014; // human hands
+    const h = () => (Math.random() - 0.5) * 0.022; // loose hands
+    const lay = 0.014; // the whole band sits just behind the beat
 
     this._jazzTimer = setInterval(() => {
-      while (next < this.ctx.currentTime + 0.9) {
+      while (next < this.ctx.currentTime + 1.2) {
         const bar = Math.floor(pos / 4) % this._prog.length;
         const beat = pos % 4;
         const chord = this._prog[bar];
         const nextChord = this._prog[(bar + 1) % this._prog.length];
-        const t = next;
+        const t = next + lay;
 
-        // walking bass: root · third · fifth · approach
-        const walk = [
-          chord.root,
-          chord.root + (Math.random() < 0.25 ? 2 : chord.third),
-          chord.root + 7,
-          nextChord.root + (Math.random() < 0.5 ? -1 : 1),
-        ][beat];
-        this._pluck(t + h(), midi(walk), 0.05 + Math.random() * 0.015);
-
-        // brushed ride: quarter + swung eighth on 2 and 4
-        if (!(beat === 0 && Math.random() < 0.25)) {
-          this._brush(t + h(), beat % 2 ? 0.010 : 0.007);
+        // upright bass in a lazy two-feel; it only walks when the
+        // phrase turns around
+        if (bar % 4 === 3) {
+          const w = [
+            chord.root,
+            chord.root + chord.third,
+            chord.root + 7,
+            nextChord.root + (Math.random() < 0.6 ? -1 : 2),
+          ][beat];
+          this._pluck(t + h(), midi(w), 0.048);
+        } else if (beat === 0) {
+          this._pluck(t + h(), midi(chord.root), 0.055);
+        } else if (beat === 2) {
+          const n = Math.random() < 0.3 ? chord.root + chord.third : chord.root + 7;
+          this._pluck(t + h(), midi(n), 0.042);
         }
-        if (beat % 2 === 1) this._brush(t + BEAT * 0.66 + h(), 0.005);
 
-        // EP comping: downbeat of bars 1 & 3, sometimes a pushed offbeat
-        if (beat === 0 && bar % 2 === 0) {
-          this._epChord(t + h(), chord.voicing);
-        } else if (beat === 2 && Math.random() < 0.3) {
-          this._epChord(t + BEAT * 0.66 + h(), chord.voicing, 0.007);
+        // brushes: a slow circular sweep every beat, soft ride on 2 & 4
+        this._sweep(t + h(), beat % 2 ? 0.006 : 0.0045);
+        if (beat % 2 === 1 && Math.random() < 0.65) {
+          this._ting(t + BEAT * 0.66 + h(), 0.0032);
+        }
+
+        // piano: one rolled chord a bar, placed like a comper —
+        // on the one, pushed late, or sitting out entirely
+        if (beat === 0) {
+          const r = Math.random();
+          if (r < 0.45) this._roll(t + h(), chord.voicing, 0.0085);
+          else if (r < 0.7) this._roll(t + BEAT * 1.66 + h(), chord.voicing, 0.0065);
+        }
+
+        // …and every few bars, a small right-hand thought
+        if (beat === 2 && bar % 2 === 1 && Math.random() < 0.35) {
+          this._noodle(t + BEAT * 0.66);
+        }
+
+        // the room itself: a faint crackle now and then
+        if (Math.random() < 0.3) {
+          this._crackle(t + Math.random() * BEAT);
         }
 
         pos++;
         next += BEAT;
       }
-    }, 220);
+    }, 240);
   }
 
+  /* upright bass: dark, round, long release */
   _pluck(t, freq, vol) {
     const o = this.ctx.createOscillator();
     o.type = 'triangle';
     o.frequency.value = freq;
     const lp = this.ctx.createBiquadFilter();
     lp.type = 'lowpass';
-    lp.frequency.value = 280;
+    lp.frequency.value = 210;
     const g = this.ctx.createGain();
     g.gain.setValueAtTime(0.0001, t);
-    g.gain.exponentialRampToValueAtTime(vol, t + 0.012);
-    g.gain.exponentialRampToValueAtTime(0.0001, t + 0.55);
-    o.connect(lp).connect(g).connect(this._jazzFade);
+    g.gain.exponentialRampToValueAtTime(vol, t + 0.015);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + 1.1);
+    o.connect(lp).connect(g).connect(this._jazzOut);
     o.start(t);
-    o.stop(t + 0.6);
+    o.stop(t + 1.2);
   }
 
-  _brush(t, vol) {
+  /* brush sweep: the circular whisper on the snare head */
+  _sweep(t, vol) {
+    const src = this.ctx.createBufferSource();
+    src.buffer = this._brushBuf;
+    src.playbackRate.value = 0.65 + Math.random() * 0.15;
+    const bp = this.ctx.createBiquadFilter();
+    bp.type = 'bandpass';
+    bp.frequency.value = 1300 + Math.random() * 500;
+    bp.Q.value = 0.8;
+    const g = this.ctx.createGain();
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.linearRampToValueAtTime(vol, t + 0.16);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + 0.5);
+    src.connect(bp).connect(g).connect(this._jazzOut);
+    src.start(t);
+  }
+
+  /* the ride, barely touched */
+  _ting(t, vol) {
     const src = this.ctx.createBufferSource();
     src.buffer = this._brushBuf;
     const hp = this.ctx.createBiquadFilter();
     hp.type = 'highpass';
-    hp.frequency.value = 4200;
+    hp.frequency.value = 5200;
     const g = this.ctx.createGain();
     g.gain.setValueAtTime(vol, t);
-    g.gain.exponentialRampToValueAtTime(0.0001, t + 0.09);
-    src.connect(hp).connect(g).connect(this._jazzFade);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + 0.12);
+    src.connect(hp).connect(g).connect(this._jazzOut);
     src.start(t);
   }
 
-  _epChord(t, notes, vol = 0.01) {
-    for (const n of notes) {
-      for (const det of [0, 1.003]) {
-        const o = this.ctx.createOscillator();
-        o.type = 'sine';
-        o.frequency.value = this._midi(n) * (det || 1);
-        const lp = this.ctx.createBiquadFilter();
-        lp.type = 'lowpass';
-        lp.frequency.value = 1100;
-        const g = this.ctx.createGain();
-        g.gain.setValueAtTime(0.0001, t);
-        g.gain.linearRampToValueAtTime(vol, t + 0.28);
-        g.gain.exponentialRampToValueAtTime(0.0001, t + 2.2);
-        o.connect(lp).connect(g).connect(this._jazzFade);
-        o.start(t);
-        o.stop(t + 2.3);
-      }
+  /* one piano note — a touch of hammer, a felt-damped body */
+  _piano(t, m, vol, dur = 1.9) {
+    const f = this._midi(m);
+    for (const [mult, v] of [[1, 1], [2, 0.28], [1.002, 0.5]]) {
+      const o = this.ctx.createOscillator();
+      o.type = mult === 2 ? 'sine' : 'triangle';
+      o.frequency.value = f * mult;
+      const lp = this.ctx.createBiquadFilter();
+      lp.type = 'lowpass';
+      lp.frequency.value = 1500;
+      const g = this.ctx.createGain();
+      g.gain.setValueAtTime(0.0001, t);
+      g.gain.exponentialRampToValueAtTime(vol * v, t + 0.012);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+      o.connect(lp).connect(g).connect(this._jazzOut);
+      o.start(t);
+      o.stop(t + dur + 0.1);
     }
+  }
+
+  /* a chord rolled bottom-to-top, like a hand, not a machine */
+  _roll(t, notes, vol) {
+    notes.forEach((n, i) => {
+      this._piano(t + i * (0.02 + Math.random() * 0.012), n, vol);
+    });
+  }
+
+  /* a short right-hand phrase out of D minor pentatonic */
+  _noodle(t) {
+    const scale = [62, 65, 67, 69, 72, 74, 77];
+    let idx = 2 + Math.floor(Math.random() * 3);
+    const count = 3 + Math.floor(Math.random() * 3);
+    let time = t;
+    for (let i = 0; i < count; i++) {
+      idx = Math.min(scale.length - 1, Math.max(0, idx + (Math.random() < 0.5 ? -1 : 1)));
+      this._piano(time, scale[idx], 0.0065 * (1 - i * 0.12), 1.1);
+      time += this._BEAT * (i % 2 ? 0.34 : 0.66); // swung eighths
+    }
+  }
+
+  /* dust on the needle */
+  _crackle(t) {
+    const src = this.ctx.createBufferSource();
+    src.buffer = this._brushBuf;
+    src.playbackRate.value = 2.5;
+    const hp = this.ctx.createBiquadFilter();
+    hp.type = 'highpass';
+    hp.frequency.value = 6800;
+    const g = this.ctx.createGain();
+    g.gain.setValueAtTime(0.0022, t);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + 0.012);
+    src.connect(hp).connect(g).connect(this._jazzOut);
+    src.start(t);
+    src.stop(t + 0.02);
   }
 }
