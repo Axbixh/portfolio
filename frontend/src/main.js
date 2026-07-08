@@ -107,6 +107,7 @@ async function enterRoom() {
   document.getElementById('ui').style.display = 'none';
   room.enter();
   sound.swell();
+  sound.setScene('room'); // the band plays softer while you work
   cursor?.setMode('room');
   fade.classList.remove('on');
 }
@@ -119,6 +120,7 @@ async function exitRoom() {
   document.getElementById('ui').style.display = '';
   world.active = true;
   sound.swell();
+  sound.setScene('world');
   cursor?.setMode('world');
   fade.classList.remove('on');
 }
