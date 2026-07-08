@@ -1,0 +1,17 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "curl -s -o /dev/null --max-time 2 http://localhost:5173/ 2>/dev/null || powershell -NoProfile -Command \"Start-Process -WindowStyle Hidden -FilePath cmd -ArgumentList '/c npm run dev > C:\\Users\\Koushik\\Desktop\\NFC\\.claude\\dev.log 2>&1' -WorkingDirectory 'C:\\Users\\Koushik\\Desktop\\NFC'\" || true",
+            "timeout": 20,
+            "async": true,
+            "statusMessage": "Starting Observatory dev servers…"
+          }
+        ]
+      }
+    ]
+  }
+}
