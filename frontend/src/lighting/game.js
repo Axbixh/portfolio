@@ -189,9 +189,20 @@ export class MatchGame {
       const res = await fetch(`/api/scores?challenge=${key}`);
       if (!res.ok) throw 0;
       const rows = await res.json();
-      this.board.innerHTML = rows.slice(0, 8).map((r, i) =>
-        `<div class="b-row"><span>${i + 1}. ${r.name}</span><span>${r.score}%</span></div>`
-      ).join('') || '<div class="b-row"><span>no scores yet</span><span>—</span></div>';
+      // textContent only — leaderboard data is user-generated
+      this.board.textContent = '';
+      const list = rows.slice(0, 8);
+      if (!list.length) list.push({ name: 'no scores yet', score: '—' });
+      list.forEach((r, i) => {
+        const row = document.createElement('div');
+        row.className = 'b-row';
+        const l = document.createElement('span');
+        l.textContent = rows.length ? `${i + 1}. ${String(r.name).slice(0, 3)}` : String(r.name);
+        const v = document.createElement('span');
+        v.textContent = rows.length ? `${Math.round(Number(r.score)) || 0}%` : '—';
+        row.append(l, v);
+        this.board.appendChild(row);
+      });
     } catch {
       this.board.innerHTML = '';
     }

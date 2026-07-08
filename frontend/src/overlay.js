@@ -121,10 +121,12 @@ export function createOverlay(sections, hooks) {
       const wrap = document.createElement('div');
       wrap.className = 'portrait';
       wrap.innerHTML = `
-        <img src="/portrait.jpg" alt="portrait"
-          onerror="this.closest('.portrait').classList.add('placeholder')" />
+        <img src="/portrait.jpg" alt="portrait" />
         <div class="p-light"></div>
         <span class="p-cap">relit live — move the light</span>`;
+      wrap.querySelector('img').addEventListener('error', () => {
+        wrap.classList.add('placeholder'); // no portrait.jpg yet — silhouette
+      });
       inner.appendChild(wrap);
       p.addEventListener('pointermove', (e) => {
         const r = wrap.getBoundingClientRect();
@@ -224,14 +226,16 @@ function buildStage(work) {
   );
   if (yt) {
     const id = yt[1] || yt[2];
-    return `<iframe src="https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0"
-      allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>`;
+    return `<iframe src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(id)}?autoplay=1&rel=0"
+      allow="autoplay; fullscreen; picture-in-picture" allowfullscreen
+      referrerpolicy="strict-origin-when-cross-origin"></iframe>`;
   }
   const vm = String(v).match(/vimeo\.com\/(\d+)|^(\d{6,})$/);
   if (vm) {
     const id = vm[1] || vm[2];
-    return `<iframe src="https://player.vimeo.com/video/${id}?autoplay=1"
-      allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>`;
+    return `<iframe src="https://player.vimeo.com/video/${encodeURIComponent(id)}?autoplay=1"
+      allow="autoplay; fullscreen; picture-in-picture" allowfullscreen
+      referrerpolicy="strict-origin-when-cross-origin"></iframe>`;
   }
   return `<video src="${v}" controls autoplay playsinline></video>`;
 }
