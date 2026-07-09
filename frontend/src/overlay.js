@@ -175,6 +175,7 @@ export function createOverlay(sections, hooks) {
 
   function openViewer(work) {
     stage.innerHTML = buildStage(work);
+    stage.classList.toggle('vertical', !!work.vertical); // reels: tall frame
     viewer.querySelector('.meta .t').textContent = work.title;
     viewer.querySelector('.meta .m').textContent = work.meta;
     viewer.classList.add('on');
@@ -238,5 +239,8 @@ function buildStage(work) {
       allow="autoplay; fullscreen; picture-in-picture" allowfullscreen
       referrerpolicy="strict-origin-when-cross-origin"></iframe>`;
   }
-  return `<video src="${v}" controls autoplay playsinline></video>`;
+  // self-hosted file (.mp4/.webm) — poster shows a frame while it loads
+  const poster = work.poster ? ` poster="${encodeURI(work.poster)}"` : '';
+  return `<video src="${encodeURI(String(v))}"${poster} controls autoplay
+    playsinline preload="metadata"></video>`;
 }

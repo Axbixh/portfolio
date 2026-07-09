@@ -3,12 +3,18 @@
  * ALL SITE CONTENT LIVES HERE. Replace every [REPLACE] item.
  *
  * Work items:
- *   { title, meta, video }
+ *   { title, meta, video, vertical?, poster? }
  *   video can be:
  *     - a YouTube URL or ID        → embedded player
  *     - a Vimeo URL or ID          → embedded player
- *     - a direct .mp4/.webm URL    → native <video>
+ *     - a self-hosted .mp4/.webm   → native <video>. Either a local path
+ *       ('/media/reel.mp4', file in public/media/, <25MB) or an R2/CDN
+ *       URL ('https://media.you.com/film.mp4') for larger films.
  *     - null                       → elegant placeholder card
+ *   vertical: true  → tall 9:16 frame (phone-shot reels)
+ *   poster: '/media/x.jpg'  → still shown while a self-hosted file loads
+ *
+ * Self-hosting how-to: scripts/compress-video.md
  * ————————————————————————————————————————————————
  */
 
@@ -49,9 +55,10 @@ export const SECTIONS = [
     title: 'Reels',
     body: 'Fast work. Cut for rhythm, shot for the small screen.',
     works: [
-      { title: 'Reel — Motion', meta: 'Vertical · 2025', video: null },  // [REPLACE]
-      { title: 'Reel — Light', meta: 'Vertical · 2025', video: null },   // [REPLACE]
-      { title: 'Reel — Craft', meta: 'Vertical · 2024', video: null },   // [REPLACE]
+      // [REPLACE] self-hosted example: drop reel-motion.mp4 in public/media/
+      { title: 'Reel — Motion', meta: 'Vertical · 2025', video: null, vertical: true },
+      { title: 'Reel — Light', meta: 'Vertical · 2025', video: null, vertical: true },  // [REPLACE]
+      { title: 'Reel — Craft', meta: 'Vertical · 2024', video: null, vertical: true },  // [REPLACE]
     ],
   },
   {
