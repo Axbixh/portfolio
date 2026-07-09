@@ -43,9 +43,10 @@ export const SECTIONS = [
     title: 'Films',
     body: 'Directed work. Stories built shot by shot, light by light.',
     works: [
-      { title: 'Untitled Short', meta: 'Short film · 2025', video: null }, // [REPLACE]
-      { title: 'Second Film', meta: 'Short film · 2024', video: null },    // [REPLACE]
-      { title: 'Third Film', meta: 'Documentary · 2024', video: null },    // [REPLACE]
+      // links wired ✓ — [REPLACE title + meta] with the real names
+      { title: 'Film One', meta: 'Short film · 2025', video: 'https://www.youtube.com/watch?v=4wTK1yPGZRg' },
+      { title: 'Film Two', meta: 'Short film · 2024', video: 'https://www.youtube.com/watch?v=WVOD2_boKpo' },
+      { title: 'Film Three', meta: 'Short film · 2024', video: 'https://www.youtube.com/watch?v=DqkRJJy2oVs' },
     ],
   },
   {
@@ -55,10 +56,10 @@ export const SECTIONS = [
     title: 'Reels',
     body: 'Fast work. Cut for rhythm, shot for the small screen.',
     works: [
-      // [REPLACE] self-hosted example: drop reel-motion.mp4 in public/media/
-      { title: 'Reel — Motion', meta: 'Vertical · 2025', video: null, vertical: true },
-      { title: 'Reel — Light', meta: 'Vertical · 2025', video: null, vertical: true },  // [REPLACE]
-      { title: 'Reel — Craft', meta: 'Vertical · 2024', video: null, vertical: true },  // [REPLACE]
+      // links wired ✓ vertical Shorts — [REPLACE title + meta]
+      { title: 'Reel One', meta: 'Vertical · 2025', video: 'https://youtube.com/shorts/u80wd15wDSY', vertical: true },
+      { title: 'Reel Two', meta: 'Vertical · 2025', video: 'https://youtube.com/shorts/VN9tyY1lLIM', vertical: true },
+      { title: 'Reel Three', meta: 'Vertical · 2024', video: 'https://youtube.com/shorts/kBG6WaaBYbg', vertical: true },
     ],
   },
   {
