@@ -99,16 +99,38 @@ export function createOverlay(sections, hooks) {
       const grid = document.createElement('div');
       grid.className = 'work-grid';
       for (const w of s.works) {
-        // work items with a `link` open the page in a new tab (essays,
-        // external projects); everything else opens the in-place viewer
-        const card = document.createElement(w.link ? 'a' : 'button');
-        card.className = 'work-card' + (w.link ? ' external' : '');
-        card.innerHTML = `<span class="t">${w.title}</span><span class="m">${w.meta}</span>`;
-        if (w.link) {
+        // Four card kinds:
+        //   video       → opens the in-place viewer (Films / Reels)
+        //   description  → a project blurb, with an optional View → link
+        //   link only    → external essay/link card (whole card is the link)
+        //   comingSoon   → muted placeholder
+        const asDesc = !!w.description || !!w.comingSoon;
+        const asLink = !!w.link && !asDesc;
+        const tag = asLink ? 'a' : (w.video ? 'button' : 'div');
+        const card = document.createElement(tag);
+        card.className = 'work-card'
+          + (asLink ? ' external' : '')
+          + (asDesc ? ' has-desc' : '')
+          + (w.comingSoon ? ' soon' : '');
+
+        let html = `<span class="t">${w.title}</span><span class="m">${w.meta}</span>`;
+        if (w.description) html += `<span class="desc">${w.description}</span>`;
+        card.innerHTML = html;
+
+        if (asLink) {
           card.href = w.link;
           card.target = '_blank';
           card.rel = 'noopener';
-        } else {
+        } else if (w.description && w.link) {
+          // description card with a destination → nested View → link
+          const view = document.createElement('a');
+          view.className = 'view';
+          view.href = w.link;
+          view.target = '_blank';
+          view.rel = 'noopener';
+          view.textContent = 'View →';
+          card.appendChild(view);
+        } else if (w.video) {
           card.addEventListener('click', () => openViewer(w));
         }
         grid.appendChild(card);

@@ -55,9 +55,9 @@ export const SECTIONS = [
     title: 'Reels',
     body: 'Fast work. Cut for rhythm, shot for the small screen.',
     works: [
-      { title: 'Speakeasy bar', meta: 'Vertical · 2025', video: 'https://youtube.com/shorts/u80wd15wDSY', vertical: true },
-      { title: 'Asura 1', meta: 'Vertical · 2025', video: 'https://youtube.com/shorts/VN9tyY1lLIM', vertical: true },
-      { title: 'Asura 2', meta: 'Vertical · 2025', video: 'https://youtube.com/shorts/kBG6WaaBYbg', vertical: true },
+      { title: 'Speakeasy bar', meta: 'Reel · 2025', video: 'https://youtube.com/shorts/u80wd15wDSY', vertical: true },
+      { title: 'Asura 1', meta: 'Reel · 2025', video: 'https://youtube.com/shorts/VN9tyY1lLIM', vertical: true },
+      { title: 'Asura 2', meta: 'Reel · 2025', video: 'https://youtube.com/shorts/kBG6WaaBYbg', vertical: true },
     ],
   },
   {
@@ -67,9 +67,16 @@ export const SECTIONS = [
     title: 'Bits <em>&</em> Build',
     body: 'Where ideas become real. Products, experiments and systems built to be useful — and beautiful.',
     works: [
-      { title: 'This Site', meta: 'WebGL · Three.js · 2026', video: null },
-      { title: 'Project Two', meta: 'Tooling · 2025', video: null },  // [REPLACE]
-      { title: 'Project Three', meta: 'App · 2025', video: null },    // [REPLACE]
+      {
+        title: 'This Site — The Observatory',
+        meta: 'WebGL · Three.js · 2026',
+        description: 'Built to prove the work, not just list it — a space you move through instead of a page you scroll, with a live cinematography tool at its heart. The care went into what you don’t notice: it holds a smooth frame on a cheap phone, leans warm instead of neon, and chooses restraint every time it’s tempted to show off.',
+        // link: 'https://github.com/Axbixh/…'  // add the repo after it's pushed
+      },
+      // [REPLACE — no rush] give these a title, meta, description, and a
+      // `link:` when ready; drop `comingSoon` once they're real.
+      { title: 'In the works', meta: 'Project · 2026', comingSoon: true },
+      { title: 'In the works', meta: 'Project · 2026', comingSoon: true },
     ],
   },
   {

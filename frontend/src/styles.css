@@ -410,6 +410,48 @@ a.work-card.external .t::after {
   color: rgba(224, 169, 110, 0.7);
 }
 
+/* ——— project (description) cards ——— */
+.work-card.has-desc {
+  flex: 1 1 100%;              /* the real project takes the full row */
+  cursor: default;
+  padding: 15px 18px;
+}
+.work-card.has-desc:hover { background: rgba(10, 7, 5, 0.55); }
+.work-card .desc {
+  display: block;
+  margin-top: 9px;
+  font-family: var(--serif);
+  font-size: 0.98rem;
+  line-height: 1.5;
+  color: rgba(239, 231, 220, 0.62);
+  max-width: 52ch;
+}
+.work-card .view {
+  display: inline-block;
+  margin-top: 12px;
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(245, 197, 66, 0.4);
+  padding-bottom: 2px;
+}
+.work-card .view:hover { border-color: var(--gold); }
+
+/* coming-soon placeholders: muted, share a row under the real project */
+.work-card.soon {
+  flex: 1 1 130px;
+  cursor: default;
+  border-style: dashed;
+  border-color: rgba(224, 169, 110, 0.16);
+  background: rgba(10, 7, 5, 0.32);
+}
+.work-card.soon:hover { background: rgba(10, 7, 5, 0.32); }
+.work-card.soon .t { color: rgba(239, 231, 220, 0.4); font-size: 1rem; }
+.work-card.soon .m { color: rgba(224, 169, 110, 0.45); }
+
 .cta {
   padding: 13px 26px;
   font-size: 11px;
@@ -908,6 +950,8 @@ html.has-cursor, html.has-cursor * { cursor: none !important; }
   }
   .work-grid { max-width: 100%; }
   .work-card { flex: 1 1 100%; min-width: 0; }
+  .work-card .desc { max-width: 100%; }
+  .work-card.soon { flex: 1 1 100%; } /* stack, don't squeeze, on phones */
   /* console becomes a horizontal swipe row so the subject stays visible */
   .hud-console {
     flex-wrap: nowrap;
