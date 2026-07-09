@@ -43,10 +43,9 @@ export const SECTIONS = [
     title: 'Films',
     body: 'Directed work. Stories built shot by shot, light by light.',
     works: [
-      // links wired ✓ — [REPLACE title + meta] with the real names
-      { title: 'Film One', meta: 'Short film · 2025', video: 'https://www.youtube.com/watch?v=4wTK1yPGZRg' },
-      { title: 'Film Two', meta: 'Short film · 2024', video: 'https://www.youtube.com/watch?v=WVOD2_boKpo' },
-      { title: 'Film Three', meta: 'Short film · 2024', video: 'https://www.youtube.com/watch?v=DqkRJJy2oVs' },
+      { title: 'Why do people love beaches so much', meta: 'Short film · 2025', video: 'https://www.youtube.com/watch?v=4wTK1yPGZRg' },
+      { title: 'How to shoot cinematic videos', meta: 'Short film · 2024', video: 'https://www.youtube.com/watch?v=WVOD2_boKpo' },
+      { title: 'What is love', meta: 'Short film · 2024', video: 'https://www.youtube.com/watch?v=DqkRJJy2oVs' },
     ],
   },
   {
