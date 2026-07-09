@@ -752,8 +752,8 @@ html.has-cursor, html.has-cursor * { cursor: none !important; }
 /* ——— about portrait, relit live ——— */
 .portrait {
   position: relative;
-  width: min(330px, 62vw);
-  aspect-ratio: 4 / 3; /* landscape crop, biased to face + window */
+  width: min(225px, 48vw);
+  aspect-ratio: 1980 / 2523; /* the edited photo's exact ratio — shown whole */
   border: 1px solid rgba(224, 169, 110, 0.3);
   overflow: hidden;
   margin-top: 4px;
@@ -761,10 +761,7 @@ html.has-cursor, html.has-cursor * { cursor: none !important; }
 }
 .portrait img {
   width: 100%; height: 100%;
-  object-fit: cover;
-  object-position: center 46%;
-  display: block;
-  filter: contrast(1.03) saturate(1.02);
+  object-fit: cover; display: block; /* no filter — your grade, untouched */
 }
 .portrait.placeholder img { display: none; }
 .portrait.placeholder::before {
