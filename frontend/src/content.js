@@ -19,7 +19,7 @@
  */
 
 export const SITE = {
-  name: 'KOUSHIK', // [REPLACE] your name / mark
+  name: 'Abhi',
   positioning: {
     // The one line the whole site proves (spec §1). <em> renders in amber italic.
     lead: 'Building things worth paying <em>attention</em> to.',
@@ -55,10 +55,9 @@ export const SECTIONS = [
     title: 'Reels',
     body: 'Fast work. Cut for rhythm, shot for the small screen.',
     works: [
-      // links wired ✓ vertical Shorts — [REPLACE title + meta]
-      { title: 'Reel One', meta: 'Vertical · 2025', video: 'https://youtube.com/shorts/u80wd15wDSY', vertical: true },
-      { title: 'Reel Two', meta: 'Vertical · 2025', video: 'https://youtube.com/shorts/VN9tyY1lLIM', vertical: true },
-      { title: 'Reel Three', meta: 'Vertical · 2024', video: 'https://youtube.com/shorts/kBG6WaaBYbg', vertical: true },
+      { title: 'Speakeasy bar', meta: 'Vertical · 2025', video: 'https://youtube.com/shorts/u80wd15wDSY', vertical: true },
+      { title: 'Asura 1', meta: 'Vertical · 2025', video: 'https://youtube.com/shorts/VN9tyY1lLIM', vertical: true },
+      { title: 'Asura 2', meta: 'Vertical · 2025', video: 'https://youtube.com/shorts/kBG6WaaBYbg', vertical: true },
     ],
   },
   {
@@ -80,9 +79,8 @@ export const SECTIONS = [
     title: 'Thoughts',
     body: 'Thoughts collected while building.',
     works: [
-      // links wired ✓ — [REPLACE title] with the real essay titles
-      { title: 'Essay One', meta: 'Substack · 2026', link: 'https://substack.com/home/post/p-189231046' },
-      { title: 'Essay Two', meta: 'Substack · 2025', link: 'https://substack.com/home/post/p-186204933' },
+      { title: 'i dont fit in', meta: 'Substack · 2026', link: 'https://substack.com/home/post/p-189231046' },
+      { title: 'what am i trying', meta: 'Substack · 2025', link: 'https://substack.com/home/post/p-186204933' },
     ],
   },
   {
