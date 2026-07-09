@@ -107,10 +107,10 @@ export const SECTIONS = [
     title: 'Get in <em>touch</em>',
     body: 'The observatory is always listening.',
     links: [
-      { label: 'Email', href: 'mailto:geekspacetech02@gmail.com' },        // [REPLACE if needed]
-      { label: 'Instagram', href: 'https://instagram.com/' },              // [REPLACE]
-      { label: 'YouTube', href: 'https://youtube.com/' },                  // [REPLACE]
-      { label: 'GitHub', href: 'https://github.com/' },                    // [REPLACE]
+      { label: 'Email', href: 'mailto:axbixh@gmail.com' },
+      { label: 'Instagram', href: 'https://www.instagram.com/oh.its.abhi/' },
+      { label: 'YouTube', href: 'https://www.youtube.com/@ohitsabhi' },
+      { label: 'GitHub', href: 'https://github.com/Axbixh' },
     ],
   },
 ];
