@@ -80,8 +80,9 @@ export const SECTIONS = [
     title: 'Thoughts',
     body: 'Thoughts collected while building.',
     works: [
-      { title: 'On Warm Futurism', meta: 'Essay · 2026', video: null },     // [REPLACE]
-      { title: 'The Phone Is the Venue', meta: 'Essay · 2025', video: null }, // [REPLACE]
+      // links wired ✓ — [REPLACE title] with the real essay titles
+      { title: 'Essay One', meta: 'Substack · 2026', link: 'https://substack.com/home/post/p-189231046' },
+      { title: 'Essay Two', meta: 'Substack · 2025', link: 'https://substack.com/home/post/p-186204933' },
     ],
   },
   {

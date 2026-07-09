@@ -401,6 +401,14 @@ button:hover { border-color: var(--amber); color: var(--gold); }
   color: rgba(224, 169, 110, 0.8);
 }
 .work-card:hover { background: rgba(224, 169, 110, 0.08); }
+a.work-card { text-decoration: none; position: relative; }
+a.work-card.external .t { padding-right: 16px; }
+a.work-card.external .t::after {
+  content: '↗';
+  position: absolute; top: 12px; right: 14px;
+  font-size: 0.85rem;
+  color: rgba(224, 169, 110, 0.7);
+}
 
 .cta {
   padding: 13px 26px;

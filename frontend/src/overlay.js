@@ -99,10 +99,18 @@ export function createOverlay(sections, hooks) {
       const grid = document.createElement('div');
       grid.className = 'work-grid';
       for (const w of s.works) {
-        const card = document.createElement('button');
-        card.className = 'work-card';
+        // work items with a `link` open the page in a new tab (essays,
+        // external projects); everything else opens the in-place viewer
+        const card = document.createElement(w.link ? 'a' : 'button');
+        card.className = 'work-card' + (w.link ? ' external' : '');
         card.innerHTML = `<span class="t">${w.title}</span><span class="m">${w.meta}</span>`;
-        card.addEventListener('click', () => openViewer(w));
+        if (w.link) {
+          card.href = w.link;
+          card.target = '_blank';
+          card.rel = 'noopener';
+        } else {
+          card.addEventListener('click', () => openViewer(w));
+        }
         grid.appendChild(card);
       }
       inner.appendChild(grid);
