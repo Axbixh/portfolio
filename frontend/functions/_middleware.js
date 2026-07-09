@@ -28,6 +28,13 @@ export async function onRequest({ request, next }) {
   if (request.method === 'POST') {
     const ip = request.headers.get('cf-connecting-ip') || 'unknown';
     const now = Date.now();
+    // opportunistic prune so the map can't grow without bound in a
+    // long-lived isolate
+    if (buckets.size > 5000) {
+      for (const [k, v] of buckets) {
+        if (!v.some((t) => now - t < 600_000)) buckets.delete(k);
+      }
+    }
     const hits = (buckets.get(ip) || []).filter((t) => now - t < 600_000);
     if (hits.length >= 40) {
       buckets.set(ip, hits);

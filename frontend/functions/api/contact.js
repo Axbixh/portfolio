@@ -9,8 +9,13 @@ const CONTROL_CHARS = new RegExp('[\\u0000-\\u001f\\u007f]', 'g');
 const cleanText = (v, max) =>
   String(v ?? '').replace(CONTROL_CHARS, ' ').trim().slice(0, max);
 
+const MAX_BODY = 12_288;
+
 export async function onRequestPost({ request, env }) {
   if (!env.OBS_KV) return json({ error: 'storage not configured' }, 503);
+  if (Number(request.headers.get('content-length') || 0) > MAX_BODY) {
+    return json({ error: 'payload too large' }, 413);
+  }
   let body;
   try {
     body = await request.json();

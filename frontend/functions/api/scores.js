@@ -5,8 +5,15 @@
 
 const json = (data, status = 200) => Response.json(data, { status });
 
-const challengeKey = (v) =>
-  String(v || 'free').replace(/[^a-z0-9-]/gi, '').slice(0, 16) || 'free';
+/* The game only ever uses an 8-digit date (daily) or 'free'. Anything
+   else is rejected to 'free' so the KV key namespace can't be inflated
+   by attacker-chosen challenge strings. */
+const challengeKey = (v) => {
+  const s = String(v || 'free');
+  return /^\d{8}$/.test(s) ? s : 'free';
+};
+
+const MAX_BODY = 4_096;
 
 export async function onRequestGet({ request, env }) {
   if (!env.OBS_KV) return json([]);
@@ -17,6 +24,9 @@ export async function onRequestGet({ request, env }) {
 
 export async function onRequestPost({ request, env }) {
   if (!env.OBS_KV) return json({ error: 'storage not configured' }, 503);
+  if (Number(request.headers.get('content-length') || 0) > MAX_BODY) {
+    return json({ error: 'payload too large' }, 413);
+  }
   let body;
   try {
     body = await request.json();
@@ -24,8 +34,13 @@ export async function onRequestPost({ request, env }) {
     return json({ error: 'bad request' }, 400);
   }
   const { name, score, challenge } = body || {};
-  const s = Math.round(Number(score));
-  if (!Number.isFinite(s) || s < 0 || s > 100) {
+  // require a real number — reject arrays/null/objects that Number()
+  // would silently coerce ([100]→100, null→0)
+  if (typeof score !== 'number' || !Number.isFinite(score)) {
+    return json({ error: 'score must be a number 0-100' }, 400);
+  }
+  const s = Math.round(score);
+  if (s < 0 || s > 100) {
     return json({ error: 'score must be 0-100' }, 400);
   }
   const key = `scores:${challengeKey(challenge)}`;

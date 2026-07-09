@@ -1,0 +1,16 @@
+# Cloudflare Pages applies these to every static asset response
+# (HTML/JS/CSS/images). Function responses get the same set from
+# functions/_middleware.js. Belt and suspenders — every response
+# leaves with the full security header set.
+
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: SAMEORIGIN
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self'; frame-src https://www.youtube-nocookie.com https://player.vimeo.com; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'
+
+# Fingerprinted build assets are safe to cache forever
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
