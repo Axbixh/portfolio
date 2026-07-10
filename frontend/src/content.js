@@ -62,15 +62,15 @@ export const SECTIONS = [
   },
   {
     id: 'build',
-    label: 'Bits & Build',
+    label: 'Bits & Builds',
     kicker: 'Chapter 03',
-    title: 'Bits <em>&</em> Build',
+    title: 'Bits <em>&</em> Builds',
     body: 'Where ideas become real. Products, experiments and systems built to be useful — and beautiful.',
     works: [
       {
         title: 'This Site — The Observatory',
         meta: 'WebGL · Three.js · 2026',
-        description: 'Built to prove the work, not just list it — a space you move through instead of a page you scroll, with a live cinematography tool at its heart. The care went into what you don’t notice: it holds a smooth frame on a cheap phone, leans warm instead of neon, and chooses restraint every time it’s tempted to show off.',
+        description: 'An expression more than a proof. A space to move through — built to feel like something, not to list what I can do.',
         // link: 'https://github.com/Axbixh/…'  // add the repo after it's pushed
       },
       // [REPLACE — no rush] give these a title, meta, description, and a
