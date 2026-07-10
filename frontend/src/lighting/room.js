@@ -19,7 +19,6 @@ import {
 import { makeShotCard, shareOrDownload } from './shotcard.js';
 import { publishShotCard } from '../api.js';
 import { SITE } from '../content.js';
-import { MatchGame } from './game.js';
 
 const HEAD = new THREE.Vector3(0, 1.5, 0);
 const GRID_Y = 5.6; // height of the overhead pipe grid
@@ -367,7 +366,6 @@ export class LightingRoom {
         </div>
         <div class="hud-top-right">
           <button class="hud-exit" id="lr-exit">← EXIT</button>
-          <button class="hud-exit hud-game-btn" id="lr-game">▶ MATCH THE SHOT</button>
         </div>
       </div>
       <div class="hud-map">
@@ -380,10 +378,6 @@ export class LightingRoom {
     this.hud = hud;
 
     hud.querySelector('#lr-exit').addEventListener('click', () => this.onExit?.());
-    hud.querySelector('#lr-game').addEventListener('click', () => {
-      if (!this.game) this.game = new MatchGame(this);
-      this.game.start(true);
-    });
     this.mapCtx = hud.querySelector('#lr-map').getContext('2d');
 
     const console_ = hud.querySelector('#lr-console');
@@ -601,7 +595,6 @@ export class LightingRoom {
 
     this._updateReadout(camAz);
     this._drawMap(camAz);
-    this.game?.update();
   }
 
   /* Plan-view lighting diagram — how cinematographers actually draw a
@@ -701,8 +694,23 @@ export class LightingRoom {
       this.hud.querySelector('#lr-recipe').innerHTML =
         line.replaceAll(' · ', '<br>');
       this._readout.line = line;
-      this._recipe = { pattern: patternText, line, note: pat.note };
     }
+    // the full recipe (kept fresh every frame) — the Shot Card reads this
+    const side2 = Math.sign(THREE.MathUtils.degToRad(s.keyAz) - camAz) || 1;
+    this._recipe = {
+      pattern: patternText,
+      line,
+      note: pat.note,
+      lights: {
+        key: { on: s.keyOn, az: Math.round(s.keyAz), el: Math.round(s.keyEl), power: s.keyInt, k: s.keyK },
+        fill: { on: s.fillOn, power: s.fillInt, k: s.fillK, az: camAz - side2 * 0.55 },
+        rim: { on: s.rimOn, power: s.rimInt, az: camAz + Math.PI - side2 * 0.55 },
+        camAz,
+        ratio: ratio.ratio,
+        mm: s.mm,
+        angle,
+      },
+    };
   }
 
   render() {
@@ -720,17 +728,11 @@ export class LightingRoom {
     this.controls.enabled = true;
     this.hud.classList.add('on');
     this._syncScrollHint();
-    // deep link: /?room&game drops straight into the daily challenge
-    if (!this._gameLinkDone && new URLSearchParams(location.search).has('game')) {
-      this._gameLinkDone = true;
-      this.hud.querySelector('#lr-game').click();
-    }
   }
 
   exit() {
     this.controls.enabled = false;
     this.hud.classList.remove('on');
-    this.game?.stop();
   }
 
   /* ————— the Shot Card ————— */

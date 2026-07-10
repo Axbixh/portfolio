@@ -50,17 +50,17 @@ domain later in the Cloudflare dashboard (Pages → Custom domains) and set
 `PUBLIC_ORIGIN` in wrangler.toml. Recommended: enable the free WAF
 rate-limiting rule in the dashboard (Security → WAF).
 
-## The game — Match the Shot
+## The Lighting Room + Shot Card
 
-In the Lighting Room, **▶ MATCH THE SHOT** shows a target frame rendered from
-a hidden recipe. Rebuild it; you're scored live on key position, ratio,
-temperature, and lens. The daily challenge is date-seeded (everyone gets the
-same brief); scores post to the leaderboard (`/api/scores`). Deep links:
-`/?room` opens the room, `/?room&game` opens the daily challenge directly.
+A sandbox: move the key light, shape the ratio, choose the lens, and read
+the pattern the light makes (Rembrandt / loop / split / …). `/?room` deep-links
+straight into it.
 
-Shot Cards publish to the backend and get a share page (`/shot/<id>`) with
-OG tags, so shared cards unfurl as images on socials. The share link is
-copied to the clipboard on capture.
+**CAPTURE ▸ SHOT CARD** saves a PNG of the frame plus the full lighting setup:
+the shot name, a top-down plan of where the key/fill/rim sit, and each light's
+position, temperature, and intensity. Cards publish to the backend and get a
+share page (`/shot/<id>`) with OG tags, so shared cards unfurl as images on
+socials; the share link is copied to the clipboard on capture.
 
 ## Extras
 

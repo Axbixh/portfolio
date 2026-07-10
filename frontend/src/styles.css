@@ -831,95 +831,11 @@ html.has-cursor, html.has-cursor * { cursor: none !important; }
   color: rgba(239, 231, 220, 0.55);
 }
 
-/* ——— Match the Shot ——— */
 .hud-top-right {
   display: flex; flex-direction: column;
   gap: 8px; align-items: flex-end;
   pointer-events: all;
 }
-.hud-game-btn { border-color: rgba(245, 197, 66, 0.55); color: var(--gold); }
-
-.game-panel {
-  position: fixed;
-  top: 78px; left: 50%;
-  transform: translateX(-50%) translateY(-8px);
-  width: 228px;
-  background: rgba(8, 5, 4, 0.9);
-  border: 1px solid rgba(245, 197, 66, 0.35);
-  padding: 10px;
-  z-index: 35;
-  font-family: var(--mono);
-  opacity: 0; pointer-events: none;
-  transition: opacity 0.35s, transform 0.35s;
-}
-.game-panel.on {
-  opacity: 1; pointer-events: all;
-  transform: translateX(-50%);
-}
-.g-head {
-  display: flex; justify-content: space-between; align-items: center;
-  margin-bottom: 8px;
-}
-.g-title { font-size: 9px; letter-spacing: 0.24em; color: var(--gold); }
-.g-quit { border: none; color: rgba(239, 231, 220, 0.6); font-size: 11px; padding: 2px 6px; }
-.g-target { width: 100%; display: block; border: 1px solid rgba(224, 169, 110, 0.3); }
-.g-score-row { display: flex; gap: 10px; align-items: center; margin: 10px 0; }
-.g-pct {
-  font-family: var(--serif);
-  font-size: 30px; font-weight: 300;
-  color: var(--cream);
-  min-width: 62px;
-  font-variant-numeric: tabular-nums;
-}
-.g-bars { flex: 1; display: flex; flex-direction: column; gap: 5px; }
-.g-bar { display: flex; align-items: center; gap: 6px; }
-.g-bar-l {
-  font-size: 7px; letter-spacing: 0.15em; text-transform: uppercase;
-  color: rgba(239, 231, 220, 0.45); width: 30px; flex: none;
-}
-.g-track { flex: 1; height: 2px; background: rgba(224, 169, 110, 0.18); }
-.g-fill { height: 100%; width: 0; background: var(--amber); transition: width 0.2s; }
-.g-lock {
-  width: 100%; padding: 10px; font-size: 9px;
-  border-color: rgba(245, 197, 66, 0.5); color: var(--gold);
-}
-.g-result { display: none; text-align: center; }
-.g-result.on { display: block; }
-.r-score {
-  font-family: var(--serif); font-weight: 300;
-  font-size: 44px; color: var(--gold); margin-top: 8px;
-}
-.r-grade {
-  font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase;
-  color: var(--cream); margin: 4px 0;
-}
-.r-time {
-  font-size: 8px; letter-spacing: 0.15em; text-transform: uppercase;
-  color: rgba(239, 231, 220, 0.45); margin-bottom: 10px;
-}
-.r-submit { display: flex; gap: 6px; justify-content: center; margin-bottom: 10px; }
-.r-submit input {
-  width: 54px;
-  background: none;
-  border: 1px solid rgba(224, 169, 110, 0.35);
-  color: var(--cream);
-  font-family: var(--mono);
-  text-align: center;
-  padding: 8px 4px;
-  font-size: 11px;
-  text-transform: uppercase;
-}
-.r-save { font-size: 8px; padding: 8px 10px; }
-.g-board { margin-bottom: 10px; }
-.b-row {
-  display: flex; justify-content: space-between;
-  font-size: 9px; letter-spacing: 0.1em;
-  color: rgba(239, 231, 220, 0.7);
-  padding: 3px 2px;
-  border-bottom: 1px solid rgba(224, 169, 110, 0.12);
-}
-.r-actions { display: flex; gap: 6px; justify-content: center; }
-.r-actions button { font-size: 8px; padding: 8px 10px; }
 
 /* ——— Perf harness ——— */
 #perf {
@@ -977,12 +893,6 @@ html.has-cursor, html.has-cursor * { cursor: none !important; }
   .play-cta { right: 12px; bottom: 16px; padding: 10px 13px; font-size: 9px; }
   .corner-toggles { left: 12px; bottom: 16px; }
   .corner-toggles button { padding: 10px 11px; font-size: 8px; }
-  .game-panel {
-    top: auto; bottom: 210px; left: 12px;
-    transform: translateY(6px);
-    width: 208px;
-  }
-  .game-panel.on { transform: none; }
   .portrait { width: min(160px, 44vw); }
   .hud-title .note { max-width: 26ch; }
   .viewer .close { top: 12px; right: 12px; }
